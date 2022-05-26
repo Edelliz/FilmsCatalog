@@ -1,0 +1,47 @@
+﻿@using FilmsCatalog.Models.ViewModels
+@model MoviesPageViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Каталог фильмов</h1>
+
+<p>
+    <a asp-action="Create">Добавить новый фильм</a>
+</p>
+<table class="table w-100">
+    <tbody class="w-100">
+        @foreach (var item in Model.Movies)
+        {
+            <tr class="row">
+                <td class="d-inline-flex col-6">
+
+                    @if (@item.PosterPath == null || @item.PosterPath == "")
+                    {
+
+                        <img class="img-thumbnail w-100" alt="Image" src="~/attachments/placeholderPoster.png" />
+                    }
+                    else
+                    {
+                        <img class="img-thumbnail w-100" alt="Image" src="@item.PosterPath" />
+                    }
+
+                </td>
+                <td class="d-flex flex-column col-4">
+                    <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
+                    <div>
+                        <h6>Описание</h6>
+                        @Html.DisplayFor(modelItem => item.Description)
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </div>
+
+                </td>
+                <td class="d-flex col-2">
+                    <a class="d-flex align-self-start" asp-action="Details" asp-route-id="@item.Id">Подробнее</a>|
+                    <a class="d-flex align-self-start" asp-action="Edit" asp-route-id="@item.Id">Редактировать</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

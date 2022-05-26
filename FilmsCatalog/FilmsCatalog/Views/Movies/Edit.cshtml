@@ -1,0 +1,101 @@
+﻿@using FilmsCatalog.Models.ViewModels
+@model MovieViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<h1>Редактирование нового фильма</h1>
+
+<h4>Заполните информацию о фильме</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Название</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Описание</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label">Год создания</label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieDirectorId" class="control-label">Режиссер</label>
+                <select asp-for="MovieDirectorId" class="mdb-select md-form form-control" asp-items="ViewBag.MovieDirectors" searchable="Найти автора"></select>
+                <span asp-validation-for="MovieDirectorId" class="text-danger"></span>
+            </div>
+            <div class="form-group custom-file">
+                <label asp-for="Poster" class="custom-file-label control-label" for="customFile">Постер</label>
+                <div class="col-md-10">
+                    <input type="file" asp-for="Poster" class="custom-file-input form-control" id="customFile" />
+                    <span asp-validation-for="Poster" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <button type="submit" class="btn btn-outline-primary  mt-3">Редактировать</button>
+            </div>
+        </form>
+        <div>
+            <div class="modal fade" id="modalMovieDirectorForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Создание автора</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="formCreateMovieDirector" onsubmit="return false" class="modal-body mx-3">
+                            <div class="form-group md-form mb-5">
+                                <label class="control-label">Имя</label>
+                                <input id="nameDirector" type="text" class="form-control" required />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group md-form mb-5">
+                                <label class="control-label">Фамилия</label>
+                                <input id="surnameDirector" type="text" class="form-control" required />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group md-form mb-5">
+                                <label class="control-label">Отчество</label>
+                                <input id="patronymicDirector" type="text" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="form-group modal-footer d-flex justify-content-center">
+                                <input type="submit" value="Добавить режиссера" class="btnCreateNewMovieDirector btn btn-primary pt-2" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-4">
+                <a href="" data-toggle="modal" data-target="#modalMovieDirectorForm">
+                    Не нашли режисера? Тогда добавьте его!
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Вернуться к списку фильмов</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

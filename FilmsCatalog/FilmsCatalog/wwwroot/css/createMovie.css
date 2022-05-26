@@ -1,0 +1,18 @@
+﻿.btnCreateMovieDirector {
+    color: blue;
+}
+
+.btnCreateMovieDirector :hover{
+    color: red;
+}
+
+button {
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+
+    button:active {
+        border-style: outset;
+    }

@@ -1,0 +1,44 @@
+﻿@model FilmsCatalog.Models.Movie
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Model.Name</h1>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-6">
+            @if (@Model.PosterPath == null || @Model.PosterPath == "")
+            {
+
+                <img class="img-thumbnail w-100" alt="Image" src="~/attachments/placeholderPoster.png" />
+            }
+            else
+            {
+                <img class="img-thumbnail w-100" alt="Image" src="@Model.PosterPath" />
+            }
+        </div>
+        <div class="col-4">
+            <p class="m-0 p-0"><b>Описание</b></p>
+            <p>
+                @Html.DisplayFor(model => model.Description)
+            </p>
+            <p class="d-flex align-self-end">
+                @Html.DisplayFor(model => model.Year)
+            </p>
+        </div>
+        <div class="col-2">
+            <p class="m-0 p-0">
+                <b>Режиссер:</b>  @Html.DisplayFor(model => model.MovieDirector.FullName)
+            </p>
+        </div>
+
+
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a> |
+    <a asp-action="Index">Вернуться к списку фильмов</a>
+</div>
