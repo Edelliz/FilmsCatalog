@@ -10,14 +10,13 @@
     <hr />
     <div class="row">
         <div class="col-6">
-            @if (@Model.PosterPath == null || @Model.PosterPath == "")
+            @if (String.IsNullOrWhiteSpace(Model.PosterPath))
             {
-
                 <img class="img-thumbnail w-100" alt="Image" src="~/attachments/placeholderPoster.png" />
             }
             else
             {
-                <img class="img-thumbnail w-100" alt="Image" src="@Model.PosterPath" />
+                <img class="img-thumbnail w-100" alt="Image" src="../../@Model.PosterPath" />
             }
         </div>
         <div class="col-4">

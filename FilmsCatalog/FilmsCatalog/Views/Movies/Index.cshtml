@@ -5,6 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
+<link rel="stylesheet" href="~/css/site.css" />
 <h1>Каталог фильмов</h1>
 
 <p>
@@ -16,17 +17,14 @@
         {
             <tr class="row">
                 <td class="d-inline-flex col-6">
-
-                    @if (@item.PosterPath == null || @item.PosterPath == "")
+                    @if (String.IsNullOrWhiteSpace(item.PosterPath))
                     {
-
                         <img class="img-thumbnail w-100" alt="Image" src="~/attachments/placeholderPoster.png" />
                     }
                     else
                     {
                         <img class="img-thumbnail w-100" alt="Image" src="@item.PosterPath" />
                     }
-
                 </td>
                 <td class="d-flex flex-column col-4">
                     <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
@@ -45,3 +43,20 @@
         }
     </tbody>
 </table>
+
+@if (Model.PageInfo.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageInfo.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        Назад
+    </a>
+}
+@if (Model.PageInfo.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageInfo.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Вперед
+    </a>
+}

@@ -10,6 +10,7 @@ using FilmsCatalog.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using FilmsCatalog.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace FilmsCatalog.Controllers
 {
@@ -56,9 +57,12 @@ namespace FilmsCatalog.Controllers
             return View(movie);
         }
 
-        [Authorize]
         public IActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("SignIn", "Account", new { returnUrl = Request.Path });
+            }
             ViewData["MovieDirectors"] = new SelectList(_context.MovieDirectors, "Id", "FullName");
             return View();
         }
@@ -98,9 +102,13 @@ namespace FilmsCatalog.Controllers
             return View(model);
         }
 
-        [Authorize]
         public async Task<IActionResult> Edit(Guid? id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("SignIn", "Account", new { returnUrl = Request.Path });
+            }
+
             var movie = await _context.Movies
                 .Include(x => x.MovieDirector)
                 .Include(x => x.AddedByUser)
@@ -108,6 +116,12 @@ namespace FilmsCatalog.Controllers
             if (movie == default)
             {
                 return NotFound();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (movie.AddedByUser.Id != user.Id)
+            {
+                return Forbid();
             }
 
             ViewData["MovieDirectors"] = new SelectList(_context.MovieDirectors, "Id", "FullName", movie.MovieDirectorId);
